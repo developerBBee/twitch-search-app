@@ -8,7 +8,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
 
     const response = await fetch(
-      `https://api.twitch.tv/helix/users?${searchParams}`,
+      `https://api.twitch.tv/helix/schedule?${searchParams}`,
       {
         headers: {
           "Client-ID": process.env.CLIENT_ID,
@@ -19,7 +19,7 @@ export async function GET(request) {
 
     console.log("Response received:", response);
     if (!response.ok) {
-      return new Response("Failed to fetch user data", {
+      return new Response("Failed to fetch schedule data", {
         status: response.status,
       });
     }
@@ -28,7 +28,7 @@ export async function GET(request) {
     console.log("Response json:", data);
     return Response.json(data);
   } catch (error) {
-    console.error("Error fetching user data:", error);
+    console.error("Error fetching schedule data:", error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }
