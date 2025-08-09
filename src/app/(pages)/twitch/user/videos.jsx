@@ -3,14 +3,14 @@ import {
   Card,
   List,
   Typography,
-  Chip,
   Divider,
   ListItem,
 } from "@mui/material";
-import { AccessTime, Event } from "@mui/icons-material";
+import { AccessTime, Event, Person, Upload } from "@mui/icons-material";
 import React from "react";
+import Image from "next/image";
 
-const Segments = ({ segments }) => {
+const Videos = ({ videos }) => {
   return (
     <Box sx={{ padding: 2 }}>
       <Typography
@@ -18,12 +18,12 @@ const Segments = ({ segments }) => {
         component="h1"
         sx={{ marginBottom: 3, fontWeight: "bold" }}
       >
-        スケジュール
+        動画
       </Typography>
       <List sx={{ padding: 0 }}>
-        {segments.map((segment, index) => (
-          <ListItem key={segment.id} sx={{ padding: 0, marginBottom: 2 }}>
-            <Segment segment={segment} isLast={index === segments.length - 1} />
+        {videos.map((video, index) => (
+          <ListItem key={video.id} sx={{ padding: 0, marginBottom: 2 }}>
+            <Video video={video} isLast={index === videos.length - 1} />
           </ListItem>
         ))}
       </List>
@@ -31,7 +31,7 @@ const Segments = ({ segments }) => {
   );
 };
 
-const Segment = ({ segment, isLast }) => {
+const Video = ({ video, isLast }) => {
   // 日付部分と時間部分を分離
   const formatDate = (dateTimeString) => {
     const date = new Date(dateTimeString);
@@ -47,14 +47,26 @@ const Segment = ({ segment, isLast }) => {
     });
   };
 
+  const handleCardClick = () => {
+    if (video.url) {
+      window.open(video.url, "_blank", "noopener,noreferrer");
+    }
+  }
+
+  const resizedThumbnailUrl = video.thumbnail_url
+    .replace('%{width}', 320)
+    .replace('%{height}', 180);
+
   return (
     <Card
+      onClick={handleCardClick}
       sx={{
         width: "100%",
         borderRadius: 2,
         boxShadow: 2,
         transition: "all 0.3s ease-in-out",
         "&:hover": {
+          cursor: video.url ? "pointer" : "default",
           boxShadow: 4,
           transform: "translateY(-2px)",
         },
@@ -71,16 +83,19 @@ const Segment = ({ segment, isLast }) => {
             color: "primary.main",
           }}
         >
-          {segment.title}
+          {video.title}
         </Typography>
 
-        {/* カテゴリがある場合 */}
-        {segment.category && (
-          <Chip
-            label={segment.category}
-            size="small"
-            color="secondary"
-            sx={{ marginBottom: 2 }}
+        {/* サムネイルURLがある場合 */}
+        {video.thumbnail_url && (
+          <Image
+            src={resizedThumbnailUrl}
+            alt={video.title}
+            width={320}
+            height={180}
+            layout="responsive"
+            objectFit="cover"
+            style={{ borderRadius: 8, marginBottom: 2 }}
           />
         )}
 
@@ -93,16 +108,16 @@ const Segment = ({ segment, isLast }) => {
             marginBottom: 1,
           }}
         >
-          <Event color="action" fontSize="small" />
+          <Upload color="action" fontSize="small" />
           <Typography variant="body2" color="text.secondary">
-            {formatDate(segment.start_time)}
+            {formatDate(video.created_at)}
           </Typography>
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <AccessTime color="action" fontSize="small" />
+          <Person color="action" fontSize="small" />
           <Typography variant="body2" color="text.secondary">
-            {formatTime(segment.start_time)} 〜 {formatTime(segment.end_time)}
+            {video.user_name}
           </Typography>
         </Box>
       </Box>
@@ -112,4 +127,4 @@ const Segment = ({ segment, isLast }) => {
   );
 };
 
-export default Segments;
+export default Videos;

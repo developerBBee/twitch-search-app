@@ -1,13 +1,15 @@
 "use client";
 
-import { fetchSchedule, fetchUser } from "@/app/utils/apiUtils";
+import { fetchSchedule, fetchUser, fetchVideos } from "@/app/utils/apiUtils";
 import { Box, Button, TextareaAutosize } from "@mui/material";
 import React, { useState } from "react";
 import Segments from "./segments";
+import Videos from "./videos";
 
 const UserPage = () => {
   const [result, setResult] = useState("");
   const [segments, setSegments] = useState([]);
+  const [videos, setVideos] = useState([]);
 
   const onFetchUserClick = async (e) => {
     e.preventDefault();
@@ -31,11 +33,23 @@ const UserPage = () => {
     });
   };
 
+  const onFetchVideosClick = async (e) => {
+    e.preventDefault();
+    const query = new URLSearchParams({
+      user_id: "229044481",
+    });
+
+    fetchVideos(query, setVideos, (error) => {
+      alert(`動画情報の取得に失敗しました。${error}`);
+    });
+  };
+
   return (
     <Box>
       <h1>APIテスト</h1>
       <Button onClick={onFetchUserClick}>ユーザー情報を取得</Button>
       <Button onClick={onFetchScheduleClick}>スケジュール情報を取得</Button>
+      <Button onClick={onFetchVideosClick}>動画情報を取得</Button>
       <Box sx={{ marginTop: 2 }}>
         <TextareaAutosize
           value={result}
@@ -46,6 +60,7 @@ const UserPage = () => {
 
       <Box sx={{ marginTop: 2 }} />
       <Segments segments={segments} />
+      <Videos videos={videos} />
     </Box>
   );
 };

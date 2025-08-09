@@ -22,3 +22,16 @@ export const fetchSchedule = async (query, onSuccess, onFailure) => {
     onFailure(error);
   }
 };
+
+export const fetchVideos = async (query, onSuccess, onFailure) => {
+  try {
+    const result = await fetch(`/api/twitch/videos?${query}`);
+    const resultData = await result.json();
+    console.log("Videos Data:", resultData);
+
+    onSuccess(resultData.data);
+  } catch (error) {
+    console.error("Error fetching videos data:", error);
+    onFailure(error);
+  }
+};
