@@ -14,7 +14,7 @@ const UserPage = () => {
   const onFetchUserClick = async (e) => {
     e.preventDefault();
     const query = new URLSearchParams({
-      login: "breesknees",
+      login: "rtainjapan",
     });
 
     fetchUser(query, setResult, (error) => {
@@ -25,7 +25,7 @@ const UserPage = () => {
   const onFetchScheduleClick = async (e) => {
     e.preventDefault();
     const query = new URLSearchParams({
-      broadcaster_id: "229044481",
+      broadcaster_id: "134850221",
     });
 
     fetchSchedule(query, setSegments, (error) => {
@@ -36,7 +36,7 @@ const UserPage = () => {
   const onFetchVideosClick = async (e) => {
     e.preventDefault();
     const query = new URLSearchParams({
-      user_id: "229044481",
+      user_id: "134850221",
     });
 
     fetchVideos(query, setVideos, (error) => {

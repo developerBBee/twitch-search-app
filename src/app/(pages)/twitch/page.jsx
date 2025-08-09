@@ -11,15 +11,15 @@ import {
   CardMedia,
   Grid,
   Pagination,
-  Box as MuiBox,
+  Box,
   InputAdornment,
   Chip,
   Avatar,
 } from "@mui/material";
-import { Box } from "@mui/system";
-import { Search, Person, Visibility, ThumbUp } from "@mui/icons-material";
+import { Search, Person, Visibility } from "@mui/icons-material";
 import { useState, useEffect } from "react";
 import { dummyStreams } from "@/app/utils/dummyData";
+import WebSocketDemo from "./components/WebSocketDemo";
 
 const TwitchApiMenuPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -68,7 +68,7 @@ const TwitchApiMenuPage = () => {
       </AppBar>
 
       {/* サーチバー（スクロール時にドッキング） */}
-      <MuiBox
+      <Box
         sx={{
           position: isSearchBarSticky ? "fixed" : "static",
           top: isSearchBarSticky ? 0 : "auto",
@@ -81,7 +81,7 @@ const TwitchApiMenuPage = () => {
           transition: "all 0.3s ease-in-out",
         }}
       >
-        <MuiBox
+        <Box
           sx={{
             display: "flex",
             gap: 2,
@@ -96,7 +96,7 @@ const TwitchApiMenuPage = () => {
             placeholder="配信者名やゲーム名で検索..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -112,14 +112,16 @@ const TwitchApiMenuPage = () => {
           >
             検索
           </Button>
-        </MuiBox>
-      </MuiBox>
+        </Box>
+      </Box>
 
       {/* スティッキーサーチバー用のスペーサー */}
-      {isSearchBarSticky && <MuiBox sx={{ height: "88px" }} />}
+      {isSearchBarSticky && <Box sx={{ height: "88px" }} />}
+
+      <WebSocketDemo />
 
       {/* フィードのページングリスト */}
-      <MuiBox sx={{ maxWidth: "1200px", margin: "0 auto", padding: 3 }}>
+      <Box sx={{ maxWidth: "1200px", margin: "0 auto", padding: 3 }}>
         <Grid container spacing={3}>
           {currentStreams.map((stream) => (
             <Grid item xs={12} sm={6} md={4} key={stream.id}>
@@ -159,7 +161,7 @@ const TwitchApiMenuPage = () => {
                     {stream.title}
                   </Typography>
 
-                  <MuiBox
+                  <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -173,7 +175,7 @@ const TwitchApiMenuPage = () => {
                     <Typography variant="body2" color="text.secondary">
                       {stream.streamer}
                     </Typography>
-                  </MuiBox>
+                  </Box>
 
                   <Typography
                     variant="body2"
@@ -183,7 +185,7 @@ const TwitchApiMenuPage = () => {
                     {stream.game}
                   </Typography>
 
-                  <MuiBox
+                  <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -195,9 +197,9 @@ const TwitchApiMenuPage = () => {
                     <Typography variant="body2" color="text.secondary">
                       {stream.viewers.toLocaleString()} 視聴者
                     </Typography>
-                  </MuiBox>
+                  </Box>
 
-                  <MuiBox sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
+                  <Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
                     {stream.tags.map((tag, index) => (
                       <Chip
                         key={index}
@@ -207,7 +209,7 @@ const TwitchApiMenuPage = () => {
                         sx={{ fontSize: "0.75rem" }}
                       />
                     ))}
-                  </MuiBox>
+                  </Box>
                 </CardContent>
               </Card>
             </Grid>
@@ -215,9 +217,7 @@ const TwitchApiMenuPage = () => {
         </Grid>
 
         {/* ページネーション */}
-        <MuiBox
-          sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}
-        >
+        <Box sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
           <Pagination
             count={totalPages}
             page={currentPage}
@@ -227,8 +227,8 @@ const TwitchApiMenuPage = () => {
             showFirstButton
             showLastButton
           />
-        </MuiBox>
-      </MuiBox>
+        </Box>
+      </Box>
     </Box>
   );
 };
