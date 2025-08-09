@@ -141,7 +141,7 @@ const TwitchApiMenuPage = () => {
                 <CardMedia
                   component="img"
                   height="180"
-                  image={stream.thumbnail}
+                  image={stream.thumbnail_url}
                   alt={stream.title}
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
@@ -195,7 +195,7 @@ const TwitchApiMenuPage = () => {
                   >
                     <Visibility fontSize="small" color="action" />
                     <Typography variant="body2" color="text.secondary">
-                      {stream.viewers.toLocaleString()} 視聴者
+                      {stream.viewer_count.toLocaleString()} 視聴者
                     </Typography>
                   </Box>
 
