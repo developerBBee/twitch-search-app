@@ -48,3 +48,16 @@ export const fetchStreams = async (query, onSuccess, onFailure) => {
     onFailure(error);
   }
 };
+
+export const fetchChannels = async (query, onSuccess, onFailure) => {
+  try {
+    const result = await fetch(`/api/twitch/search/channels?${query}`);
+    const resultData = await result.json();
+    console.log("Channels Data:", resultData);
+
+    onSuccess(resultData.data);
+  } catch (error) {
+    console.error("Error fetching channels data:", error);
+    onFailure(error);
+  }
+};
