@@ -8,12 +8,15 @@ import { formatNumber } from "@/app/utils/formatter";
 
 const StreamCard = ({ stream, sx }) => {
   const [error, setError] = useState(false);
-  const imageSrc = error ? "images/no_image.png" : stream.thumbnail_url;
+  const resizedThumbnailUrl = stream.thumbnail_url
+    .replace("{width}", 320)
+    .replace("{height}", 180);
+  const imageSrc = error ? "images/no_image.png" : resizedThumbnailUrl;
 
   const handleCardClick = () => {
-    console.log("Card clicked:", stream.user_id);
-    if (!stream.user_id) return;
-    const url = `https://www.twitch.tv/${stream.user_id}`;
+    console.log("Card clicked:", stream.user_login);
+    if (!stream.user_login) return;
+    const url = `https://www.twitch.tv/${stream.user_login}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -40,7 +43,7 @@ const StreamCard = ({ stream, sx }) => {
         </Typography>
 
         <IconText
-          text={stream.streamer}
+          text={stream.user_name}
           sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}
         >
           <Mic fontSize="small" />
