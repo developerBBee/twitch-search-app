@@ -2,14 +2,13 @@
 
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import React, { useState } from "react";
-import noImage from "@/assets/no_image.png";
 import { Mic, Person } from "@mui/icons-material";
 import IconText from "./IconText";
 import { formatNumber } from "@/app/utils/formatter";
 
 const StreamCard = ({ stream, sx }) => {
   const [error, setError] = useState(false);
-  const imageSrc = error ? noImage.src : stream.thumbnail_url;
+  const imageSrc = error ? "images/no_image.png" : stream.thumbnail_url;
 
   const handleCardClick = () => {
     console.log("Card clicked:", stream.user_id);
