@@ -42,7 +42,7 @@ export const fetchStreams = async (query, onSuccess, onFailure) => {
     const resultData = await result.json();
     console.log("Streams Data:", resultData);
 
-    onSuccess(resultData.data);
+    onSuccess({ isStream: true, list: resultData.data });
   } catch (error) {
     console.error("Error fetching streams data:", error);
     onFailure(error);
@@ -55,7 +55,7 @@ export const fetchChannels = async (query, onSuccess, onFailure) => {
     const resultData = await result.json();
     console.log("Channels Data:", resultData);
 
-    onSuccess(resultData.data);
+    onSuccess({ isStream: false, list: resultData.data });
   } catch (error) {
     console.error("Error fetching channels data:", error);
     onFailure(error);

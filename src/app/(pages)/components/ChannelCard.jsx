@@ -2,22 +2,22 @@
 
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { Mic, Person, VideogameAsset } from "@mui/icons-material";
+import { Mic, Person } from "@mui/icons-material";
 import IconText from "./IconText";
 import { formatNumber } from "@/app/utils/formatter";
 import LiveMark from "./LiveMark";
 
-const StreamCard = ({ stream, sx }) => {
+const ChannelCard = ({ channel, sx }) => {
   const [error, setError] = useState(false);
-  const resizedThumbnailUrl = stream.thumbnail_url
+  const resizedThumbnailUrl = channel.thumbnail_url
     .replace("{width}", 320)
     .replace("{height}", 180);
   const imageSrc = error ? "images/no_image.png" : resizedThumbnailUrl;
 
   const handleCardClick = () => {
-    console.log("Card clicked:", stream.user_login);
-    if (!stream.user_login) return;
-    const url = `https://www.twitch.tv/${stream.user_login}`;
+    console.log("Card clicked:", channel.broadcaster_login);
+    if (!channel.broadcaster_login) return;
+    const url = `https://www.twitch.tv/${channel.broadcaster_login}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -28,40 +28,33 @@ const StreamCard = ({ stream, sx }) => {
           component="img"
           image={imageSrc}
           onError={() => setError(true)}
-          alt={stream.title}
+          alt={channel.display_name}
           sx={{
             width: 320,
             height: 180,
           }}
         />
-        <LiveMark />
+        {channel.is_live && <LiveMark />}
       </Box>
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography
           variant="body2"
           noWrap
-          title={stream.title}
+          title={channel.title}
           sx={{ maxWidth: 280, mb: 1 }}
         >
-          {stream.title}
+          {channel.title}
         </Typography>
 
         <IconText
-          text={stream.user_name}
+          text={channel.user_name}
           sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}
         >
           <Mic fontSize="small" />
         </IconText>
 
         <IconText
-          text={stream.game_name}
-          sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}
-        >
-          <VideogameAsset fontSize="small" />
-        </IconText>
-
-        <IconText
-          text={formatNumber(stream.viewer_count)}
+          text={formatNumber(channel.viewer_count)}
           sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}
         >
           <Person fontSize="small" />
@@ -71,4 +64,4 @@ const StreamCard = ({ stream, sx }) => {
   );
 };
 
-export default StreamCard;
+export default ChannelCard;
