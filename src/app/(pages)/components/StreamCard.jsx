@@ -4,8 +4,8 @@ import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { Mic, Person, VideogameAsset } from "@mui/icons-material";
 import IconText from "./IconText";
-import { formatNumber } from "@/app/utils/formatter";
 import LiveMark from "./LiveMark";
+import { formatNumber } from "../../utils/formatter";
 
 const StreamCard = ({ stream, sx }) => {
   const [error, setError] = useState(false);

@@ -5,22 +5,12 @@ import React from "react";
 const StreamSearchBar = ({
   searchQuery,
   setSearchQuery,
-  isSticky,
   handleSearch,
+  sx,
 }) => {
   return (
     <Box
-      sx={{
-        position: isSticky ? "fixed" : "static",
-        top: isSticky ? 0 : "auto",
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        backgroundColor: "background.paper",
-        boxShadow: isSticky ? 2 : 0,
-        padding: 2,
-        transition: "all 0.3s ease-in-out",
-      }}
+      sx={sx}
     >
       <Box
         sx={{

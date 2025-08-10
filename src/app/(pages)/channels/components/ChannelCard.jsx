@@ -1,18 +1,23 @@
 "use client";
 
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Chip,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
-import { Mic, Person } from "@mui/icons-material";
-import IconText from "./IconText";
-import { formatNumber } from "@/app/utils/formatter";
-import LiveMark from "./LiveMark";
+import LiveMark from "../../components/LiveMark";
 
 const ChannelCard = ({ channel, sx }) => {
   const [error, setError] = useState(false);
   const resizedThumbnailUrl = channel.thumbnail_url
     .replace("{width}", 320)
     .replace("{height}", 180);
-  const imageSrc = error ? "images/no_image.png" : resizedThumbnailUrl;
+  const imageSrc = error ? "/images/no_image.png" : resizedThumbnailUrl;
+  const tags = Array.from(new Set(channel.tags ?? [])).slice(0, 3);
 
   const handleCardClick = () => {
     console.log("Card clicked:", channel.broadcaster_login);
@@ -40,25 +45,19 @@ const ChannelCard = ({ channel, sx }) => {
         <Typography
           variant="body2"
           noWrap
-          title={channel.title}
+          title={channel.display_name}
           sx={{ maxWidth: 280, mb: 1 }}
         >
-          {channel.title}
+          {channel.display_name}
         </Typography>
 
-        <IconText
-          text={channel.user_name}
-          sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}
-        >
-          <Mic fontSize="small" />
-        </IconText>
-
-        <IconText
-          text={formatNumber(channel.viewer_count)}
-          sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}
-        >
-          <Person fontSize="small" />
-        </IconText>
+        {tags.map((tag) => (
+          <Chip
+            key={`${channel.id}_${tag}`}
+            label={tag}
+            sx={{ maxWidth: 96, margin: "0px 1px 0px 1px" }}
+          />
+        ))}
       </CardContent>
     </Card>
   );
