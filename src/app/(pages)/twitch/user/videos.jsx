@@ -6,7 +6,7 @@ import {
   Divider,
   ListItem,
 } from "@mui/material";
-import { AccessTime, Event, Person, Upload } from "@mui/icons-material";
+import { Person, Upload } from "@mui/icons-material";
 import React from "react";
 import Image from "next/image";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchSchedule, fetchUser, fetchVideos } from "@/app/utils/apiUtils";
+import { fetchSchedule, fetchUser, fetchVideos } from "../../../utils/apiUtils";
 import { Box, Button, TextareaAutosize } from "@mui/material";
 import React, { useState } from "react";
 import Segments from "./segments";

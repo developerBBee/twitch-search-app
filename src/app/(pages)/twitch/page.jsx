@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { Search, Person, Visibility } from "@mui/icons-material";
 import { useState, useEffect } from "react";
-import { dummyStreams } from "@/app/utils/dummyData";
+import { dummyStreams } from "../../utils/dummyData";
 import WebSocketDemo from "./components/WebSocketDemo";
 
 const TwitchApiMenuPage = () => {
