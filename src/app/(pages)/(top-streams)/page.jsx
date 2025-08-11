@@ -19,6 +19,11 @@ export default function TopStreams() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isSticky, setIsSticky] = useState(false);
 
+  const onFetchStreamsSuccess = (payload) => {
+    dispatch(setStreams(payload));
+    setIsLoading(false);
+  };
+
   const errorHandler = (error) => {
     setIsLoading(false);
     console.log("Loading finished");
@@ -36,11 +41,7 @@ export default function TopStreams() {
     setIsLoading(true);
     console.log("Loading started");
     const query = new URLSearchParams({});
-    fetchStreams(
-      query,
-      (payload) => dispatch(setStreams(payload)),
-      errorHandler
-    );
+    fetchStreams(query, onFetchStreamsSuccess, errorHandler);
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
