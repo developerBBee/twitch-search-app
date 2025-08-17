@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, Db } = require("mongodb");
 
 const mongoClient = new MongoClient(process.env.DB_URI, {
   serverApi: {
@@ -10,6 +10,9 @@ const mongoClient = new MongoClient(process.env.DB_URI, {
 
 let db;
 
+/**
+ * @returns {Promise<Db>} MongoDBのDbインスタンス
+ */
 export async function getConnectedDB() {
   if (db) {
     return db;
