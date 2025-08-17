@@ -1,12 +1,13 @@
 "use client";
 
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Toolbar, Typography, useTheme } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 import appIcon from "../icon.ico";
 import { useRouter } from "next/navigation";
 
 const MainAppBar = ({ sx }) => {
+  const theme = useTheme();
   const router = useRouter();
 
   const onTitleClick = () => {
@@ -14,7 +15,7 @@ const MainAppBar = ({ sx }) => {
   };
 
   return (
-    <AppBar position="static" sx={sx}>
+    <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1, ...sx }}>
       <Toolbar>
         <Box
           onClick={onTitleClick}

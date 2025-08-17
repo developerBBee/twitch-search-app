@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
         <BaseLayout>
           <Box>
             <MainAppBar sx={{ backgroundColor: "primary.main" }} />
-            {children}
+            <Box sx={{ paddingTop: "64px" }}>{children}</Box>
           </Box>
         </BaseLayout>
       </body>
