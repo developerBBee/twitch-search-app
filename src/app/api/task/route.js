@@ -8,10 +8,12 @@ export async function GET(request) {
     const newTopGames = [];
     let cursor = null;
     for (let i = 0; i < 10; i++) {
-      const fetchedTopGames = await callTopGamesApi(cursor);
-      // console.log("Fetched top games:", fetchedTopGames);
-      newTopGames.push(...fetchedTopGames.data);
-      cursor = fetchedTopGames.pagination.cursor;
+      const topGamesResponse = await callTopGamesApi(cursor);
+      const addData = topGamesResponse.data.filter(
+        (data) => !newTopGames.find((game) => game.id === data.id)
+      );
+      newTopGames.push(...addData);
+      cursor = topGamesResponse.pagination.cursor;
       if (!cursor) break;
     }
 
@@ -54,7 +56,7 @@ const callTopGamesApi = async (cursor) => {
   const token = await getToken();
   console.log("Token received:", token);
 
-  const query = cursor ? `?cursor=${cursor}` : "";
+  const query = cursor ? `?after=${cursor}` : "";
   const response = await fetch(
     `https://api.twitch.tv/helix/games/top${query}`,
     {
