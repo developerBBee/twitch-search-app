@@ -1,4 +1,6 @@
-import getToken from "../../getToken";
+import getToken from "../../../mongo/token/getToken";
+import handleError from "../../handleError";
+import handleResponse from "../../handleResponse";
 
 export async function POST(request) {
   try {
@@ -31,18 +33,9 @@ export async function POST(request) {
       }
     );
 
-    console.log("Response received:", response);
-    if (!response.ok) {
-      return new Response("Failed to subscribe channel update", {
-        status: response.status,
-      });
-    }
-
-    const data = await response.json();
-    console.log("Response json:", data);
-    return Response.json(data);
+    console.log("subscribing channel update API response received:", response);
+    return await handleResponse(response);
   } catch (error) {
-    console.error("Error subscribing channel update:", error);
-    return new Response("Internal Server Error", { status: 500 });
+    return await handleError("Error subscribing channel update:", error);
   }
 }

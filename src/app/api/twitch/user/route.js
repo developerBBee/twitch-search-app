@@ -1,4 +1,6 @@
-import getToken from "../getToken";
+import getToken from "../../mongo/token/getToken";
+import handleError from "../handleError";
+import handleResponse from "../handleResponse";
 
 export async function GET(request) {
   try {
@@ -17,18 +19,9 @@ export async function GET(request) {
       }
     );
 
-    console.log("Response received:", response);
-    if (!response.ok) {
-      return new Response("Failed to fetch user data", {
-        status: response.status,
-      });
-    }
-
-    const data = await response.json();
-    console.log("Response json:", data);
-    return Response.json(data);
+    console.log("users API response received:", response);
+    return await handleResponse(response);
   } catch (error) {
-    console.error("Error fetching user data:", error);
-    return new Response("Internal Server Error", { status: 500 });
+    return await handleError("Error fetching user data:", error);
   }
 }

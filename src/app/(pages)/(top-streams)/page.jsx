@@ -41,6 +41,7 @@ export default function TopStreams() {
     setIsLoading(true);
     console.log("Loading started");
     const query = new URLSearchParams({});
+
     fetchStreams(query, onFetchStreamsSuccess, errorHandler);
 
     const handleScroll = () => {

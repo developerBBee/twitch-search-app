@@ -1,6 +1,6 @@
 import { getConnectedDB } from "../../utils/dbClient";
 import { NextResponse } from "next/server";
-import getToken from "../twitch/getToken";
+import getToken from "../mongo/token/getToken";
 
 export async function GET(request) {
   try {
