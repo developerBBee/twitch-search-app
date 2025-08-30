@@ -4,6 +4,8 @@ import "../globals.css";
 import BaseLayout from "./components/BaseLayout";
 import { Box } from "@mui/material";
 import MainAppBar from "./components/MainAppBar";
+import { Metadata } from "next";
+import React from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,12 +17,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Twitch配信検索",
   description: "Twitchライブ配信やビデオを検索するためのアプリケーションです。",
 };
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="ja">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
