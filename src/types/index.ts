@@ -149,5 +149,10 @@ export interface Language {
   label: string;
 }
 
+export interface LanguageProps {
+  languages: Language[];
+  sx?: any;
+}
+
 export type ApiSuccessCallback<T = any> = (data: T) => void;
 export type ApiErrorCallback = (error: any) => void;

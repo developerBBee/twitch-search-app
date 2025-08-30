@@ -5,7 +5,6 @@ import { Box, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import Login from "../components/Login";
 import Logout from "../components/Logout";
-import Image from "next/image";
 
 const LoginPage: React.FC = () => {
   const { data, status } = useSession();

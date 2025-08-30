@@ -1,6 +1,7 @@
-import { Box, Checkbox, MenuItem, Select, Typography } from "@mui/material";
+import { Box, Checkbox, Typography } from "@mui/material";
 import React from "react";
-import LanguageList from "../../data/LanguageList";
+import LanguageList from "../../../data/LanguageList";
+import LanguageDropdown from "./LanguageDropdown";
 
 const SearchFilterContents = ({ sx }) => {
   return (
@@ -13,13 +14,7 @@ const SearchFilterContents = ({ sx }) => {
       </Box>
 
       <Box sx={{ m: 2 }}>
-        <Typography variant="body1">言語</Typography>
-        {LanguageList.map((lang) => (
-          <Box key={lang.key} sx={{ display: "flex", alignItems: "center" }}>
-            <Checkbox key={lang.key} value={lang.key} />
-            <Typography variant="body2">{lang.label}</Typography>
-          </Box>
-        ))}
+        <LanguageDropdown languages={LanguageList} />
       </Box>
 
       <Box sx={{ m: 2 }}>

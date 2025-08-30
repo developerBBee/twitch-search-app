@@ -1,6 +1,6 @@
 import { Drawer } from "@mui/material";
 import React from "react";
-import SearchFilterContents from "./SearchFilterContents";
+import SearchFilterContents from "../(top-streams)/components/SearchFilterContents";
 
 interface SearchFilterDrawerProps {
   open: boolean;
@@ -9,11 +9,7 @@ interface SearchFilterDrawerProps {
 const SearchFilterDrawer: React.FC<SearchFilterDrawerProps> = ({ open }) => {
   const drawerWidth = open ? 250 : 50;
   return (
-    <Drawer
-      anchor="left"
-      open={true}
-      sx={{ width: drawerWidth }}
-    >
+    <Drawer anchor="left" open={true} sx={{ width: drawerWidth }}>
       {true && <SearchFilterContents sx={{}} />}
     </Drawer>
   );

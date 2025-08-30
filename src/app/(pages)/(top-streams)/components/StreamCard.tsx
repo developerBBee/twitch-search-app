@@ -3,10 +3,10 @@
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { Mic, Person, VideogameAsset } from "@mui/icons-material";
-import IconText from "./IconText";
-import LiveMark from "./LiveMark";
-import { formatNumber } from "../../utils/formatter";
-import { StreamCardProps } from "../../../types";
+import { StreamCardProps } from "../../../../types";
+import LiveMark from "../../components/LiveMark";
+import IconText from "../../components/IconText";
+import { formatNumber } from "../../../utils/formatter";
 
 const StreamCard: React.FC<StreamCardProps> = ({ stream, sx }) => {
   const [error, setError] = useState<boolean>(false);

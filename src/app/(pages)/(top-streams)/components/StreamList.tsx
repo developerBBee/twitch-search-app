@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
 import StreamCard from "./StreamCard";
-import { StreamListProps } from "../../../types";
+import { StreamListProps } from "../../../../types";
 
 const StreamList: React.FC<StreamListProps> = ({ streams, sx }) => {
   const cardSx = {

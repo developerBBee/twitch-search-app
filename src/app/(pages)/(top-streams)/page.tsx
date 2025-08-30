@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import StreamList from "../components/StreamList";
 import { fetchChannels, fetchStreams } from "../../utils/apiUtils";
 import { Box, LinearProgress } from "@mui/material";
 import StreamSearchBar from "../components/StreamSearchBar";
@@ -9,11 +8,12 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setStreams } from "../../../lib/features/streamsSlice";
 import { setChannels } from "../../../lib/features/channelsSlice";
-import { RootState } from "../../../lib/store";
+import { AppDispatch, RootState } from "../../../lib/store";
+import StreamList from "./components/StreamList";
 
 export default function TopStreams(): React.JSX.Element {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const streamsContainer = useSelector((state: RootState) => state.streams.value);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);

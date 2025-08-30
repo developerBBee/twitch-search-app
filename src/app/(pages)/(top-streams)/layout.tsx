@@ -2,7 +2,7 @@
 
 import { Box, useMediaQuery } from "@mui/material";
 import React from "react";
-import SearchFilterContents from "../components/SearchFilterContents";
+import SearchFilterContents from "./components/SearchFilterContents";
 
 interface LiveLayoutProps {
   children: React.ReactNode;
