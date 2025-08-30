@@ -1,8 +1,9 @@
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import ChannelCard from "./ChannelCard";
+import { ChannelListProps } from "../../../../types";
 
-function ChannelList({ channels, sx }) {
+const ChannelList: React.FC<ChannelListProps> = ({ channels, sx }) => {
   const cardSx = {
     height: "100%",
     display: "flex",
@@ -17,15 +18,25 @@ function ChannelList({ channels, sx }) {
 
   return (
     <Box sx={sx}>
-      <Grid container spacing={3}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(3, 1fr)",
+          },
+          gap: 3,
+        }}
+      >
         {channels.map((channel) => (
-          <Grid key={channel.id} item xs={12} sm={6} md={4}>
+          <Box key={channel.id}>
             <ChannelCard channel={channel} sx={cardSx} />
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
     </Box>
   );
-}
+};
 
 export default ChannelList;

@@ -4,7 +4,11 @@ import { Box, useMediaQuery } from "@mui/material";
 import React from "react";
 import SearchFilterContents from "../components/SearchFilterContents";
 
-const LiveLayout = ({ children }) => {
+interface LiveLayoutProps {
+  children: React.ReactNode;
+}
+
+const LiveLayout: React.FC<LiveLayoutProps> = ({ children }) => {
   const isWide = useMediaQuery("(min-width:600px)");
 
   return (

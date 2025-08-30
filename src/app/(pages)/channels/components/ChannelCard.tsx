@@ -10,12 +10,13 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import LiveMark from "../../components/LiveMark";
+import { ChannelCardProps } from "../../../../types";
 
-const ChannelCard = ({ channel, sx }) => {
+const ChannelCard: React.FC<ChannelCardProps> = ({ channel, sx }) => {
   const [error, setError] = useState(false);
   const resizedThumbnailUrl = channel.thumbnail_url
-    .replace("{width}", 320)
-    .replace("{height}", 180);
+    .replace("{width}", "320")
+    .replace("{height}", "180");
   const imageSrc = error ? "/images/no_image.png" : resizedThumbnailUrl;
   const tags = Array.from(new Set(channel.tags ?? [])).slice(0, 3);
 

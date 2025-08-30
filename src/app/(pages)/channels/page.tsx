@@ -7,17 +7,19 @@ import StreamSearchBar from "../components/StreamSearchBar";
 import ChannelList from "./components/ChannelList";
 import { useDispatch, useSelector } from "react-redux";
 import { setChannels } from "../../../lib/features/channelsSlice";
+import { RootState, AppDispatch } from "../../../lib/store";
+import React from "react";
 
 export default function Channels() {
-  const dispatch = useDispatch();
-  const channelsContainer = useSelector((state) => state.channels.value);
+  const dispatch = useDispatch<AppDispatch>();
+  const channelsContainer = useSelector((state: RootState) => state.channels.value);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState(channelsContainer.query || "");
   const [isSticky, setIsSticky] = useState(false);
 
-  const errorHandler = (error) => {
+  const errorHandler = (error: any) => {
     setIsLoading(false);
     alert(`エラーが発生しました: ${error}`);
   };
@@ -54,7 +56,7 @@ export default function Channels() {
     );
   };
 
-  const sentinelRef = useRef(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   const loadMore = () => {
     if (isLoading) return;

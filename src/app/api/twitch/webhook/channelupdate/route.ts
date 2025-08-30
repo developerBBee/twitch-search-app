@@ -16,7 +16,9 @@ const MESSAGE_TYPE_REVOCATION = 'revocation';
 // Prepend this string to the HMAC that's created from the message
 const HMAC_PREFIX = "sha256=";
 
-export async function POST(req) {
+import { NextRequest } from "next/server";
+
+export async function POST(req: NextRequest): Promise<Response> {
   console.warn("\n\n\nReceived webhook message:", req);
   const body = await req.text();
   console.log("Request body:", body);
@@ -68,14 +70,14 @@ export async function POST(req) {
   }
 }
 
-function getSecret() {
+function getSecret(): string {
   // TODO: Get your secret from secure storage. This is the secret you passed
   // when you subscribed to the event.
-  return process.env.TWITCH_WEBHOOK_SECRET;
+  return process.env.TWITCH_WEBHOOK_SECRET!;
 }
 
 // Build the message used to get the HMAC.
-function getHmacMessage(request, body) {
+function getHmacMessage(request: NextRequest, body: string): string {
   return (
     request.headers.get(TWITCH_MESSAGE_ID) +
     request.headers.get(TWITCH_MESSAGE_TIMESTAMP) +
@@ -84,12 +86,12 @@ function getHmacMessage(request, body) {
 }
 
 // Get the HMAC.
-function getHmac(secret, message) {
+function getHmac(secret: string, message: string): string {
   return crypto.createHmac("sha256", secret).update(message).digest("hex");
 }
 
 // Verify whether your signature matches Twitch's signature.
-function verifyMessage(hmac, verifySignature) {
+function verifyMessage(hmac: string, verifySignature: string): boolean {
   return crypto.timingSafeEqual(
     Buffer.from(hmac),
     Buffer.from(verifySignature)

@@ -1,7 +1,7 @@
 import { getConnectedDB } from "../../utils/dbClient";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const data = await request.json();
     console.log("Request data:", data);

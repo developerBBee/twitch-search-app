@@ -1,20 +1,20 @@
 import getToken from "../../getToken";
 
-export async function GET() {
+export async function GET(): Promise<Response> {
   try {
     const token = await getToken();
     console.log("Token received:", token);
 
     const response = await fetch(`https://api.twitch.tv/helix/games/top`, {
       headers: {
-        "Client-ID": process.env.CLIENT_ID,
+        "Client-ID": process.env.CLIENT_ID!,
         Authorization: `Bearer ${token.access_token}`,
       },
     });
 
     console.log("Response received:", response);
     if (!response.ok) {
-      return new Response("Failed to fetch videos data", {
+      return new Response("Failed to fetch top games data", {
         status: response.status,
       });
     }
@@ -23,7 +23,7 @@ export async function GET() {
     console.log("Response json:", data);
     return Response.json(data);
   } catch (error) {
-    console.error("Error fetching videos data:", error);
+    console.error("Error fetching top games data:", error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }

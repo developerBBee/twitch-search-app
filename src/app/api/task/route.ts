@@ -1,8 +1,8 @@
 import { getConnectedDB } from "../../utils/dbClient";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import getToken from "../twitch/getToken";
 
-export async function GET(request) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     // Twitchから取得する（最大10回）
     const newTopGames = [];
@@ -52,7 +52,7 @@ export async function GET(request) {
   }
 }
 
-const callTopGamesApi = async (cursor) => {
+const callTopGamesApi = async (cursor: string | null): Promise<any> => {
   const token = await getToken();
   console.log("Token received:", token);
 
@@ -61,7 +61,7 @@ const callTopGamesApi = async (cursor) => {
     `https://api.twitch.tv/helix/games/top${query}`,
     {
       headers: {
-        "Client-ID": process.env.CLIENT_ID,
+        "Client-ID": process.env.CLIENT_ID!,
         Authorization: `Bearer ${token.access_token}`,
       },
     }

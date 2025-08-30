@@ -1,6 +1,7 @@
+import { NextRequest } from "next/server";
 import getToken from "../getToken";
 
-export async function GET(request) {
+export async function GET(request: NextRequest): Promise<Response> {
   try {
     const token = await getToken();
     console.log("Token received:", token);
@@ -11,7 +12,7 @@ export async function GET(request) {
       `https://api.twitch.tv/helix/schedule?${searchParams}`,
       {
         headers: {
-          "Client-ID": process.env.CLIENT_ID,
+          "Client-ID": process.env.CLIENT_ID!,
           Authorization: `Bearer ${token.access_token}`,
         },
       }

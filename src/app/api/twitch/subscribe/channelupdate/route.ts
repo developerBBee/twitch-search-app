@@ -1,6 +1,7 @@
+import { NextRequest } from "next/server";
 import getToken from "../../getToken";
 
-export async function POST(request) {
+export async function POST(request: NextRequest): Promise<Response> {
   try {
     const reqBody = await request.json();
 
@@ -10,8 +11,8 @@ export async function POST(request) {
       condition: { broadcaster_user_id: reqBody.broadcaster_user_id },
       transport: {
         method: "webhook",
-        callback: process.env.TWITCH_CHANNEL_UPDATE_CALLBACK,
-        secret: process.env.TWITCH_WEBHOOK_SECRET,
+        callback: process.env.TWITCH_CHANNEL_UPDATE_CALLBACK!,
+        secret: process.env.TWITCH_WEBHOOK_SECRET!,
       },
     };
     console.log("Subscription request body:", body);
@@ -22,8 +23,9 @@ export async function POST(request) {
     const response = await fetch(
       `https://api.twitch.tv/helix/eventsub/subscriptions`,
       {
+        method: "POST",
         headers: {
-          "Client-ID": process.env.CLIENT_ID,
+          "Client-ID": process.env.CLIENT_ID!,
           Authorization: `Bearer ${token.access_token}`,
           "Content-Type": "application/json",
         },
