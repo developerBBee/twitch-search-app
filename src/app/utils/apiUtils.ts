@@ -43,7 +43,7 @@ export const fetchVideos = async (
     const resultData = await result.json();
     console.log("Videos Data:", resultData);
 
-    onSuccess(resultData.data);
+    onSuccess(resultData);
   } catch (error) {
     console.error("Error fetching videos data:", error);
     onFailure(error);

@@ -12,11 +12,15 @@ import React from "react";
 
 export default function ChannelsPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const channelsContainer = useSelector((state: RootState) => state.channels.value);
+  const channelsContainer = useSelector(
+    (state: RootState) => state.channels.value
+  );
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [searchQuery, setSearchQuery] = useState(channelsContainer.query || "");
+  const [searchQuery, setSearchQuery] = useState(
+    channelsContainer.query || "chat"
+  );
   const [isSticky, setIsSticky] = useState(false);
 
   const errorHandler = (error: any) => {
@@ -25,9 +29,8 @@ export default function ChannelsPage() {
   };
 
   useEffect(() => {
-    setIsLoading(false);
-    console.log("Loading finished");
-  }, [channelsContainer]);
+    handleSearch();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,8 +52,9 @@ export default function ChannelsPage() {
     fetchChannels(
       queryParams,
       (payload) => {
-        dispatch(setChannels(payload))
+        dispatch(setChannels(payload));
         scrollTo({ left: 0, top: 0, behavior: "auto" });
+        setIsLoading(false);
       },
       errorHandler
     );
@@ -72,7 +76,10 @@ export default function ChannelsPage() {
     console.log("Search:", searchQuery);
     fetchChannels(
       queryParams,
-      (payload) => dispatch(setChannels(payload)),
+      (payload) => {
+        dispatch(setChannels(payload));
+        setIsLoading(false);
+      },
       errorHandler
     );
   };

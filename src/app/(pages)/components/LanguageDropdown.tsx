@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Box,
   Checkbox,
@@ -10,9 +12,9 @@ import {
   Popper,
   TextField,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
-import { LanguageProps } from "../../../../types";
+import { LanguageProps } from "../../../types";
 import { Close } from "@mui/icons-material";
+import React, { useRef, useState } from "react";
 
 const LanguageDropdown: React.FC<LanguageProps> = ({ languages }) => {
   const [selected, setSelected] = useState<string[]>([]);

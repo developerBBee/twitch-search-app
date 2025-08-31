@@ -37,13 +37,6 @@ export interface TwitchChannel {
   started_at: string;
 }
 
-export interface TwitchGame {
-  id: string;
-  name: string;
-  box_art_url: string;
-  igdb_id: string;
-}
-
 export interface TwitchVideo {
   id: string;
   stream_id: string;
@@ -56,12 +49,19 @@ export interface TwitchVideo {
   published_at: string;
   url: string;
   thumbnail_url: string;
-  viewable: string;
+  viewable: "public"; // Always set to public
   view_count: number;
   language: string;
   type: string;
   duration: string;
-  muted_segments: any[];
+  muted_segments: any[] | null;
+}
+
+export interface TwitchGame {
+  id: string;
+  name: string;
+  box_art_url: string;
+  igdb_id: string;
 }
 
 export interface TwitchScheduleSegment {
@@ -97,13 +97,9 @@ export interface ChannelsState {
   query?: string;
 }
 
-export interface RootState {
-  streams: {
-    value: StreamsState;
-  };
-  channels: {
-    value: ChannelsState;
-  };
+export interface VideosState {
+  videos: TwitchVideo[];
+  pagination: TwitchPagination;
 }
 
 export interface StreamCardProps {
@@ -111,8 +107,18 @@ export interface StreamCardProps {
   sx?: any;
 }
 
+export interface VideoCardProps {
+  video: TwitchVideo;
+  sx?: any;
+}
+
 export interface StreamListProps {
   streams: TwitchStream[];
+  sx?: any;
+}
+
+export interface VideoListProps {
+  videos: TwitchVideo[];
   sx?: any;
 }
 

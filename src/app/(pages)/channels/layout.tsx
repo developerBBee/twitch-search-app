@@ -1,11 +1,18 @@
+import { Box } from '@mui/material';
 import React from 'react'
+import ChannelFilter from './components/ChannelFilter';
 
-interface ChannelsLayoutProps {}
-
-const ChannelsLayout: React.FC<ChannelsLayoutProps> = () => {
-  return (
-    <div>ChannelsLayout</div>
-  )
+interface ChannelsLayoutProps {
+  children: React.ReactNode;
 }
 
-export default ChannelsLayout
+const ChannelsLayout: React.FC<ChannelsLayoutProps> = ({ children }) => {
+  return (
+    <Box sx={{ display: "flex", flexDirection: "row", padding: 2 }}>
+      <ChannelFilter sx={{ width: 250, p: 2 }} />
+      {children}
+    </Box>
+  );
+}
+
+export default ChannelsLayout;

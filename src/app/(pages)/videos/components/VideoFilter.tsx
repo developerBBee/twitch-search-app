@@ -1,13 +1,14 @@
-import { Box, Checkbox, SxProps, Theme, Typography } from "@mui/material";
-import React from "react";
-import LanguageDropdown from "../../components/LanguageDropdown";
-import LanguageList from "../../../data/LanguageList";
+import { Checkbox, SxProps, Typography } from '@mui/material';
+import { Box, Theme } from '@mui/system';
+import React from 'react'
+import LanguageDropdown from '../../components/LanguageDropdown';
+import LanguageList from '../../../data/LanguageList';
 
-interface ChannelFilterProps {
+interface StreamFilterProps {
   sx?: SxProps<Theme>;
 }
 
-const ChannelFilter: React.FC<ChannelFilterProps> = ({ sx }) => {
+const VideoFilter: React.FC<StreamFilterProps> = ({ sx }) => {
   return (
     <Box sx={sx}>
       <Typography variant="h6">検索条件</Typography>
@@ -32,6 +33,6 @@ const ChannelFilter: React.FC<ChannelFilterProps> = ({ sx }) => {
       </Box>
     </Box>
   );
-};
+}
 
-export default ChannelFilter;
+export default VideoFilter

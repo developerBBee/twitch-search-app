@@ -1,20 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { fetchChannels, fetchStreams } from "../../utils/apiUtils";
+import { fetchStreams } from "../../utils/apiUtils";
 import { Box, LinearProgress } from "@mui/material";
 import StreamSearchBar from "../components/StreamSearchBar";
-import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setStreams } from "../../../lib/features/streamsSlice";
-import { setChannels } from "../../../lib/features/channelsSlice";
 import { AppDispatch, RootState } from "../../../lib/store";
 import StreamList from "./components/StreamList";
 
 export default function StreamsPage(): React.JSX.Element {
-  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const streamsContainer = useSelector((state: RootState) => state.streams.value);
+  const streamsContainer = useSelector(
+    (state: RootState) => state.streams.value
+  );
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -52,23 +51,6 @@ export default function StreamsPage(): React.JSX.Element {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const onSearchSuccess = (payload: any) => {
-    dispatch(setChannels(payload));
-    setIsLoading(false);
-    console.log("Loading finished");
-    router.push("/channels");
-  };
-
-  const handleSearch = () => {
-    if (isLoading || !searchQuery) return;
-
-    setIsLoading(true);
-    console.log("Loading started");
-    console.log("Search:", searchQuery);
-    const query = new URLSearchParams({ query: searchQuery });
-    fetchChannels(query, onSearchSuccess, errorHandler);
-  };
 
   const sentinelRef = useRef<HTMLDivElement>(null);
 
@@ -122,7 +104,7 @@ export default function StreamsPage(): React.JSX.Element {
         <StreamSearchBar
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
-          handleSearch={handleSearch}
+          handleSearch={() => {}} // TODO
           sx={{
             position: isSticky ? "fixed" : "static",
             top: isSticky ? 0 : "auto",

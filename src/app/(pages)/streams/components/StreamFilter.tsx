@@ -1,9 +1,13 @@
-import { Box, Checkbox, Typography } from "@mui/material";
+import { Box, Checkbox, Typography, SxProps, Theme } from "@mui/material";
 import React from "react";
 import LanguageList from "../../../data/LanguageList";
-import LanguageDropdown from "./LanguageDropdown";
+import LanguageDropdown from "../../components/LanguageDropdown";
 
-const StreamFilter = ({ sx }) => {
+interface StreamFilterProps {
+  sx?: SxProps<Theme>;
+}
+
+const StreamFilter: React.FC<StreamFilterProps> = ({ sx }) => {
   return (
     <Box sx={sx}>
       <Typography variant="h6">検索条件</Typography>

@@ -1,7 +1,5 @@
 import { NextRequest } from "next/server";
-import getToken from "../getToken";
-import axios from "axios";
-import { TwitchVideo } from "../../../../types";
+import getToken from "../../getToken";
 
 export async function GET(request: NextRequest): Promise<Response> {
   try {
@@ -10,8 +8,8 @@ export async function GET(request: NextRequest): Promise<Response> {
 
     const { searchParams } = new URL(request.url);
 
-    const response = await axios.get<TwitchVideo>(
-      `https://api.twitch.tv/helix/videos?${searchParams}`,
+    const response = await fetch(
+      `https://api.twitch.tv/helix/search/categories?${searchParams}`,
       {
         headers: {
           "Client-ID": process.env.CLIENT_ID!,
@@ -21,13 +19,17 @@ export async function GET(request: NextRequest): Promise<Response> {
     );
 
     console.log("Response received:", response);
+    if (!response.ok) {
+      return new Response("Failed to fetch categories data", {
+        status: response.status,
+      });
+    }
 
-    const data = response.data;
+    const data = await response.json();
     console.log("Response json:", data);
     return Response.json(data);
-  } catch (error: any) {
-    const status = error.response?.status || 500;
-    console.error("Error fetching videos data:", error);
-    return new Response("Internal Server Error", { status });
+  } catch (error) {
+    console.error("Error fetching categories data:", error);
+    return new Response("Internal Server Error", { status: 500 });
   }
 }

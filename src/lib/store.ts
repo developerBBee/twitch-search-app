@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import streamsReducer from "./features/streamsSlice";
 import channelsReducer from "./features/channelsSlice";
+import videosReducer from "./features/videosSlice";
 
 export const makeStore = () =>
   configureStore({
     reducer: {
       streams: streamsReducer,
       channels: channelsReducer,
+      videos: videosReducer,
     },
   });
 
