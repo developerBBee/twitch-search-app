@@ -2,21 +2,21 @@
 
 import { Box, useMediaQuery } from "@mui/material";
 import React from "react";
-import SearchFilterContents from "./components/SearchFilterContents";
+import StreamFilter from "./components/StreamFilter";
 
-interface LiveLayoutProps {
+interface StreamsLayoutProps {
   children: React.ReactNode;
 }
 
-const LiveLayout: React.FC<LiveLayoutProps> = ({ children }) => {
+const StreamsLayout: React.FC<StreamsLayoutProps> = ({ children }) => {
   const isWide = useMediaQuery("(min-width:600px)");
 
   return (
     <Box sx={{ display: "flex", flexDirection: "row", padding: 2 }}>
-      <SearchFilterContents sx={{ width: 250, p: 2 }} />
+      <StreamFilter sx={{ width: 250, p: 2 }} />
       {children}
     </Box>
   );
 };
 
-export default LiveLayout;
+export default StreamsLayout;

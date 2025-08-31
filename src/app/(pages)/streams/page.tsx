@@ -11,7 +11,7 @@ import { setChannels } from "../../../lib/features/channelsSlice";
 import { AppDispatch, RootState } from "../../../lib/store";
 import StreamList from "./components/StreamList";
 
-export default function TopStreams(): React.JSX.Element {
+export default function StreamsPage(): React.JSX.Element {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const streamsContainer = useSelector((state: RootState) => state.streams.value);

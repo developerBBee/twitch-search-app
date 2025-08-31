@@ -10,7 +10,7 @@ import { setChannels } from "../../../lib/features/channelsSlice";
 import { RootState, AppDispatch } from "../../../lib/store";
 import React from "react";
 
-export default function Channels() {
+export default function ChannelsPage() {
   const dispatch = useDispatch<AppDispatch>();
   const channelsContainer = useSelector((state: RootState) => state.channels.value);
 

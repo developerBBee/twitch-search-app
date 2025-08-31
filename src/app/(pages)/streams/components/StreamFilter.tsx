@@ -3,7 +3,7 @@ import React from "react";
 import LanguageList from "../../../data/LanguageList";
 import LanguageDropdown from "./LanguageDropdown";
 
-const SearchFilterContents = ({ sx }) => {
+const StreamFilter = ({ sx }) => {
   return (
     <Box sx={sx}>
       <Typography variant="h6">検索条件</Typography>
@@ -30,4 +30,4 @@ const SearchFilterContents = ({ sx }) => {
   );
 };
 
-export default SearchFilterContents;
+export default StreamFilter;
