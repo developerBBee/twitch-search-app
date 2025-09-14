@@ -94,7 +94,9 @@ export interface StreamsState {
 export interface ChannelsState {
   channels: TwitchChannel[];
   pagination: TwitchPagination;
-  query?: string;
+  query: string;
+  liveOnly: boolean;
+  languages: string[];
 }
 
 export interface VideosState {

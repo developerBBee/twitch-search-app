@@ -6,7 +6,7 @@ interface ChannelsPayload extends TwitchApiResponse<TwitchChannel> {
 }
 
 const initialState: { value: ChannelsState } = {
-  value: { channels: [], query: "", pagination: { cursor: "" } },
+  value: { channels: [], query: "", pagination: { cursor: "" }, liveOnly: false, languages: [] },
 };
 
 export const channelsSlice = createSlice({
@@ -34,8 +34,14 @@ export const channelsSlice = createSlice({
         state.value.pagination = newPagination;
       }
     },
+    setLiveOnly: (state, action: PayloadAction<boolean>) => {
+      state.value.liveOnly = action.payload;
+    },
+    setLanguages: (state, action: PayloadAction<string[]>) => {
+      state.value.languages = action.payload;
+    },
   },
 });
 
-export const { setChannels } = channelsSlice.actions;
+export const { setChannels, setLiveOnly, setLanguages } = channelsSlice.actions;
 export default channelsSlice.reducer;

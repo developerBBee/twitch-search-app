@@ -9,12 +9,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { setChannels } from "../../../lib/features/channelsSlice";
 import { RootState, AppDispatch } from "../../../lib/store";
 import React from "react";
+import { TwitchChannel } from "../../../types";
 
 export default function ChannelsPage() {
   const dispatch = useDispatch<AppDispatch>();
   const channelsContainer = useSelector(
     (state: RootState) => state.channels.value
   );
+
+  const liveOnly = channelsContainer.liveOnly;
+  const languages = channelsContainer.languages;
+  const channels: TwitchChannel[] = channelsContainer.channels
+    .filter((channel) => (liveOnly ? channel.is_live : true))
+    .filter((channel) =>
+      languages.length > 0
+        ? languages.includes(channel.broadcaster_language)
+        : true
+    );
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -133,7 +144,7 @@ export default function ChannelsPage() {
         {isSticky && <Box sx={{ height: "88px" }} />}
 
         <ChannelList
-          channels={channelsContainer.channels}
+          channels={channels}
           sx={{ maxWidth: "1200px", margin: "0 auto", padding: 3 }}
         />
 
