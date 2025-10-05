@@ -89,6 +89,7 @@ export interface TwitchApiResponse<T> {
 export interface StreamsState {
   streams: TwitchStream[];
   pagination: TwitchPagination;
+  languages: Language[];
 }
 
 export interface ChannelsState {
@@ -96,7 +97,7 @@ export interface ChannelsState {
   pagination: TwitchPagination;
   query: string;
   liveOnly: boolean;
-  languages: string[];
+  languages: Language[];
 }
 
 export interface VideosState {

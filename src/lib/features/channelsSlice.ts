@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ChannelsState, TwitchApiResponse, TwitchChannel } from "../../types";
+import { ChannelsState, Language, TwitchApiResponse, TwitchChannel } from "../../types";
 
 interface ChannelsPayload extends TwitchApiResponse<TwitchChannel> {
   query?: string;
@@ -37,7 +37,7 @@ export const channelsSlice = createSlice({
     setLiveOnly: (state, action: PayloadAction<boolean>) => {
       state.value.liveOnly = action.payload;
     },
-    setLanguages: (state, action: PayloadAction<string[]>) => {
+    setLanguages: (state, action: PayloadAction<Language[]>) => {
       state.value.languages = action.payload;
     },
   },

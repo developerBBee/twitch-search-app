@@ -1,15 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { StreamsState, TwitchApiResponse, TwitchStream } from "../../types";
+import { Language, StreamsState, TwitchApiResponse, TwitchStream } from "../../types";
 
 const initialState: { value: StreamsState } = {
-  value: { streams: [], pagination: { cursor: "" } },
+  value: { streams: [], pagination: { cursor: "" }, languages: [] },
 };
 
 export const streamsSlice = createSlice({
   name: "streams",
   initialState: initialState,
   reducers: {
-    setStreams: (state, action: PayloadAction<TwitchApiResponse<TwitchStream>>) => {
+    setStreams: (
+      state,
+      action: PayloadAction<TwitchApiResponse<TwitchStream>>
+    ) => {
       const newStreams = action.payload?.data || [];
       const prevIds = new Set(state.value.streams.map((s) => s.id));
 
@@ -21,8 +24,11 @@ export const streamsSlice = createSlice({
         state.value.pagination = newPagination;
       }
     },
+    setLanguages: (state, action: PayloadAction<Language[]>) => {
+      state.value.languages = action.payload;
+    },
   },
 });
 
-export const { setStreams } = streamsSlice.actions;
+export const { setStreams, setLanguages } = streamsSlice.actions;
 export default streamsSlice.reducer;

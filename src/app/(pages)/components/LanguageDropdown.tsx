@@ -12,26 +12,33 @@ import {
   Popper,
   TextField,
 } from "@mui/material";
-import { LanguageProps } from "../../../types";
+import { Language } from "../../../types";
 import { Close } from "@mui/icons-material";
 import React, { useRef, useState } from "react";
 
-const LanguageDropdown: React.FC<LanguageProps> = ({ languages }) => {
-  const [selected, setSelected] = useState<string[]>([]);
+type LanguageProps = {
+  languages: Language[];
+  selectedLangs: Language[];
+  onSelectedLangsChange: (langs: Language[]) => void;
+};
+
+const LanguageDropdown: React.FC<LanguageProps> = (props) => {
+  const { languages, selectedLangs, onSelectedLangsChange } = props;
+
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (key: string) => {
-    if (selected.includes(key)) {
-      handleDelete(key);
+  const handleChange = (lang: Language) => {
+    if (selectedLangs.includes(lang)) {
+      handleDelete(lang);
     } else {
-      setSelected([...selected, key]);
+      onSelectedLangsChange([...selectedLangs, lang]);
     }
   };
 
-  const handleDelete = (key: string) => {
-    setSelected(selected.filter((k) => k !== key));
+  const handleDelete = (lang: Language) => {
+    onSelectedLangsChange(selectedLangs.filter((l) => l !== lang));
   };
 
   const filteredLanguages = languages.filter((lang) => {
@@ -44,12 +51,12 @@ const LanguageDropdown: React.FC<LanguageProps> = ({ languages }) => {
       {/* 選択済み言語をフォーム枠外に表示 */}
       <Box sx={{ m: 1, display: "flex", gap: 1, flexWrap: "wrap" }}>
         {languages
-          .filter((lang) => selected.includes(lang.key))
+          .filter((lang) => selectedLangs.includes(lang))
           .map((lang) => (
             <Chip
               key={lang.key}
               label={lang.label}
-              onDelete={() => handleDelete(lang.key)}
+              onDelete={() => handleDelete(lang)}
               deleteIcon={<Close />}
               sx={{ fontSize: 14 }}
             />
@@ -88,9 +95,9 @@ const LanguageDropdown: React.FC<LanguageProps> = ({ languages }) => {
                 <MenuItem
                   key={lang.key}
                   value={lang.key}
-                  onClick={() => handleChange(lang.key)}
+                  onClick={() => handleChange(lang)}
                 >
-                  <Checkbox checked={selected.includes(lang.key)} />
+                  <Checkbox checked={selectedLangs.includes(lang)} />
                   <ListItemText primary={lang.label} />
                 </MenuItem>
               ))}

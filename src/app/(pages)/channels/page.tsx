@@ -18,12 +18,12 @@ export default function ChannelsPage() {
   );
 
   const liveOnly = channelsContainer.liveOnly;
-  const languages = channelsContainer.languages;
+  const languageKeys = channelsContainer.languages.map((lang) => lang.key);
   const channels: TwitchChannel[] = channelsContainer.channels
     .filter((channel) => (liveOnly ? channel.is_live : true))
     .filter((channel) =>
-      languages.length > 0
-        ? languages.includes(channel.broadcaster_language)
+      languageKeys.length > 0
+        ? languageKeys.includes(channel.broadcaster_language)
         : true
     );
 
@@ -107,7 +107,7 @@ export default function ChannelsPage() {
 
     io.observe(el);
     return () => io.disconnect();
-  });
+  }, [channelsContainer.pagination?.cursor]);
 
   return (
     <Box sx={{ position: "relative" }}>

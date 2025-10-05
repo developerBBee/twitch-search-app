@@ -1,34 +1,27 @@
-import { Box, Checkbox, Typography, SxProps, Theme } from "@mui/material";
+import { Box, Typography, SxProps, Theme } from "@mui/material";
 import React from "react";
 import LanguageList from "../../../data/LanguageList";
 import LanguageDropdown from "../../components/LanguageDropdown";
+import { Language } from "../../../../types";
 
 interface StreamFilterProps {
   sx?: SxProps<Theme>;
+  selectedLangs: Language[];
+  onSelectedLangsChange: (langs: Language[]) => void;
 }
 
-const StreamFilter: React.FC<StreamFilterProps> = ({ sx }) => {
+const StreamFilter: React.FC<StreamFilterProps> = (props) => {
+  const { sx, selectedLangs, onSelectedLangsChange } = props;
   return (
     <Box sx={sx}>
       <Typography variant="h6">検索条件</Typography>
 
-      <Box sx={{ m: 2, display: "flex", alignItems: "center" }}>
-        <Checkbox checked={false} value="配信中のみ" />
-        <Typography variant="body2">配信中のみ</Typography>
-      </Box>
-
       <Box sx={{ m: 2 }}>
-        <LanguageDropdown languages={LanguageList} />
-      </Box>
-
-      <Box sx={{ m: 2 }}>
-        <Typography variant="body1">言語</Typography>
-        {LanguageList.map((lang) => (
-          <Box key={lang.key} sx={{ display: "flex", alignItems: "center" }}>
-            <Checkbox key={lang.key} value={lang.key} />
-            <Typography variant="body2">{lang.label}</Typography>
-          </Box>
-        ))}
+        <LanguageDropdown
+          languages={LanguageList}
+          selectedLangs={selectedLangs}
+          onSelectedLangsChange={onSelectedLangsChange}
+        />
       </Box>
     </Box>
   );

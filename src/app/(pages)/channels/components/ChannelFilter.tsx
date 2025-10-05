@@ -2,22 +2,25 @@ import { Box, Checkbox, SxProps, Theme, Typography } from "@mui/material";
 import React from "react";
 import LanguageDropdown from "../../components/LanguageDropdown";
 import LanguageList from "../../../data/LanguageList";
+import { Language } from "../../../../types";
 
-interface ChannelFilterProps {
+type ChannelFilterProps = {
   sx?: SxProps<Theme>;
   liveOnly: boolean;
   onLiveOnlyChange: (checked: boolean) => void;
-  langs?: string[];
-  onLangCheck?: (lang: string, checked: boolean) => void;
+  selectedLangs?: Language[];
+  onSelectedLangsChange: (langs: Language[]) => void;
 }
 
-const ChannelFilter: React.FC<ChannelFilterProps> = ({
-  sx,
-  liveOnly,
-  onLiveOnlyChange,
-  langs,
-  onLangCheck,
-}) => {
+const ChannelFilter: React.FC<ChannelFilterProps> = (props) => {
+  const {
+    sx,
+    liveOnly,
+    onLiveOnlyChange,
+    selectedLangs,
+    onSelectedLangsChange,
+  } = props;
+
   return (
     <Box sx={sx}>
       <Typography variant="h6">検索条件</Typography>
@@ -32,24 +35,11 @@ const ChannelFilter: React.FC<ChannelFilterProps> = ({
       </Box>
 
       <Box sx={{ m: 2 }}>
-        <LanguageDropdown languages={LanguageList} />
-      </Box>
-
-      <Box sx={{ m: 2 }}>
-        <Typography variant="body1">言語</Typography>
-        {LanguageList.map((lang) => (
-          <Box key={lang.key} sx={{ display: "flex", alignItems: "center" }}>
-            <Checkbox
-              key={lang.key}
-              value={lang.key}
-              checked={langs.includes(lang.key)}
-              onChange={(_, checked) => {
-                onLangCheck(lang.key, checked);
-              }}
-            />
-            <Typography variant="body2">{lang.label}</Typography>
-          </Box>
-        ))}
+        <LanguageDropdown
+          languages={LanguageList}
+          selectedLangs={selectedLangs}
+          onSelectedLangsChange={onSelectedLangsChange}
+        />
       </Box>
     </Box>
   );

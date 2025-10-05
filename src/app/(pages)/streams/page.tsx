@@ -15,6 +15,14 @@ export default function StreamsPage(): React.JSX.Element {
     (state: RootState) => state.streams.value
   );
 
+  const cursor = streamsContainer.pagination?.cursor;
+  const languageKeys = streamsContainer.languages.map((lang) => lang.key);
+  const streams = streamsContainer.streams.filter((stream) =>
+    languageKeys.length > 0
+      ? languageKeys.includes(stream.language)
+      : true
+  );
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isSticky, setIsSticky] = useState<boolean>(false);
@@ -33,7 +41,7 @@ export default function StreamsPage(): React.JSX.Element {
   useEffect(() => {
     setIsLoading(false);
     console.log("Loading finished");
-  }, [streamsContainer.streams]);
+  }, [streams]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -83,7 +91,7 @@ export default function StreamsPage(): React.JSX.Element {
 
     io.observe(el);
     return () => io.disconnect();
-  });
+  }, [cursor]);
 
   return (
     <Box sx={{ position: "relative" }}>
@@ -120,7 +128,7 @@ export default function StreamsPage(): React.JSX.Element {
         {isSticky && <Box sx={{ height: "88px" }} />}
 
         <StreamList
-          streams={streamsContainer.streams}
+          streams={streams}
           sx={{ maxWidth: "1200px", margin: "0 auto", padding: 3 }}
         />
 

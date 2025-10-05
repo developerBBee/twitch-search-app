@@ -6,6 +6,7 @@ import ChannelFilter from "./components/ChannelFilter";
 import { AppDispatch, RootState } from "../../../lib/store";
 import { useDispatch, useSelector } from "react-redux";
 import { setLanguages, setLiveOnly } from "../../../lib/features/channelsSlice";
+import { Language } from "../../../types";
 
 interface ChannelsLayoutProps {
   children: React.ReactNode;
@@ -23,15 +24,10 @@ const ChannelsLayout: React.FC<ChannelsLayoutProps> = ({ children }) => {
   };
 
   const langs = channelsContainer.languages;
-  const onLangCheck = (lang: string, checked: boolean) => {
-    let newLangs: string[];
-    if (checked) {
-      newLangs = [...langs, lang];
-    } else {
-      newLangs = langs.filter((l) => l !== lang);
-    }
-    dispatch(setLanguages(newLangs));
-  }
+
+  const onSelectedLangsChange = (langs: Language[]) => {
+    dispatch(setLanguages(langs));
+  };
 
   return (
     <Box sx={{ display: "flex", flexDirection: "row", padding: 2 }}>
@@ -39,8 +35,8 @@ const ChannelsLayout: React.FC<ChannelsLayoutProps> = ({ children }) => {
         sx={{ width: 250, p: 2 }}
         liveOnly={liveOnly}
         onLiveOnlyChange={onLiveOnlyChange}
-        langs={langs}
-        onLangCheck={onLangCheck}
+        selectedLangs={langs}
+        onSelectedLangsChange={onSelectedLangsChange}
       />
       {children}
     </Box>
