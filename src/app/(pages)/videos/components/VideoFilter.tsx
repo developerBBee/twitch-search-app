@@ -1,8 +1,8 @@
-import { Checkbox, SxProps, Typography } from '@mui/material';
-import { Box, Theme } from '@mui/system';
-import React from 'react'
-import LanguageDropdown from '../../components/LanguageDropdown';
-import LanguageList from '../../../data/LanguageList';
+import { Checkbox, SxProps, Typography } from "@mui/material";
+import { Box, Theme } from "@mui/system";
+import React from "react";
+import LanguageDropdown from "../../components/LanguageDropdown";
+import LanguageList from "../../../data/LanguageList";
 
 interface StreamFilterProps {
   sx?: SxProps<Theme>;
@@ -25,14 +25,14 @@ const VideoFilter: React.FC<StreamFilterProps> = ({ sx }) => {
       <Box sx={{ m: 2 }}>
         <Typography variant="body1">言語</Typography>
         {LanguageList.map((lang) => (
-          <Box key={lang.key} sx={{ display: "flex", alignItems: "center" }}>
-            <Checkbox key={lang.key} value={lang.key} />
+          <Box key={lang.code} sx={{ display: "flex", alignItems: "center" }}>
+            <Checkbox key={lang.code} value={lang.code} />
             <Typography variant="body2">{lang.label}</Typography>
           </Box>
         ))}
       </Box>
     </Box>
   );
-}
+};
 
-export default VideoFilter
+export default VideoFilter;

@@ -90,6 +90,7 @@ export interface StreamsState {
   streams: TwitchStream[];
   pagination: TwitchPagination;
   languages: Language[];
+  isTerminal: boolean;
 }
 
 export interface ChannelsState {
@@ -154,7 +155,7 @@ export interface ContentType {
 }
 
 export interface Language {
-  key: string;
+  code: string;
   label: string;
 }
 

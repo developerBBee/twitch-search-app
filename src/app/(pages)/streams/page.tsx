@@ -16,17 +16,24 @@ export default function StreamsPage(): React.JSX.Element {
   );
 
   const cursor = streamsContainer.pagination?.cursor;
-  const languageKeys = streamsContainer.languages.map((lang) => lang.key);
+  const languageCodes = streamsContainer.languages.map((lang) => lang.code);
   const streams = streamsContainer.streams.filter((stream) =>
-    languageKeys.length > 0
-      ? languageKeys.includes(stream.language)
-      : true
+    languageCodes.length > 0 ? languageCodes.includes(stream.language) : true
   );
+  const isTerminal = streamsContainer.isTerminal;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isSticky, setIsSticky] = useState<boolean>(false);
 
+  const fetchStreamsWithParams = () => {
+    const query = new URLSearchParams({});
+    if (cursor) query.set("after", cursor);
+    languageCodes.forEach((code) => query.append("language", code));
+    // TODO searchQuery
+    setIsLoading(true);
+    fetchStreams(query, onFetchStreamsSuccess, errorHandler);
+  };
   const onFetchStreamsSuccess = (payload: any) => {
     dispatch(setStreams(payload));
     setIsLoading(false);
@@ -39,17 +46,8 @@ export default function StreamsPage(): React.JSX.Element {
   };
 
   useEffect(() => {
-    setIsLoading(false);
-    console.log("Loading finished");
-  }, [streams]);
-
-  useEffect(() => {
-    if (isLoading) return;
-
-    setIsLoading(true);
     console.log("Loading started");
-    const query = new URLSearchParams({});
-    fetchStreams(query, onFetchStreamsSuccess, errorHandler);
+    fetchStreamsWithParams();
 
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -63,20 +61,8 @@ export default function StreamsPage(): React.JSX.Element {
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   const loadMore = () => {
-    if (isLoading) return;
-    const cursor = streamsContainer.pagination?.cursor;
-    if (!cursor) return;
-
-    setIsLoading(true);
-    console.log("Loading started");
-
-    const queryParams = new URLSearchParams({ after: cursor });
-    console.log("Search:", searchQuery);
-    fetchStreams(
-      queryParams,
-      (payload: any) => dispatch(setStreams(payload)),
-      errorHandler
-    );
+    if (isLoading || isTerminal) return;
+    fetchStreamsWithParams();
   };
 
   useEffect(() => {
@@ -91,7 +77,7 @@ export default function StreamsPage(): React.JSX.Element {
 
     io.observe(el);
     return () => io.disconnect();
-  }, [cursor]);
+  }, [streams]);
 
   return (
     <Box sx={{ position: "relative" }}>

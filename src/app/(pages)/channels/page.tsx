@@ -18,7 +18,7 @@ export default function ChannelsPage() {
   );
 
   const liveOnly = channelsContainer.liveOnly;
-  const languageKeys = channelsContainer.languages.map((lang) => lang.key);
+  const languageKeys = channelsContainer.languages.map((lang) => lang.code);
   const channels: TwitchChannel[] = channelsContainer.channels
     .filter((channel) => (liveOnly ? channel.is_live : true))
     .filter((channel) =>

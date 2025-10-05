@@ -54,7 +54,7 @@ const LanguageDropdown: React.FC<LanguageProps> = (props) => {
           .filter((lang) => selectedLangs.includes(lang))
           .map((lang) => (
             <Chip
-              key={lang.key}
+              key={lang.code}
               label={lang.label}
               onDelete={() => handleDelete(lang)}
               deleteIcon={<Close />}
@@ -93,8 +93,8 @@ const LanguageDropdown: React.FC<LanguageProps> = (props) => {
             <FormControl fullWidth>
               {filteredLanguages.map((lang) => (
                 <MenuItem
-                  key={lang.key}
-                  value={lang.key}
+                  key={lang.code}
+                  value={lang.code}
                   onClick={() => handleChange(lang)}
                 >
                   <Checkbox checked={selectedLangs.includes(lang)} />
