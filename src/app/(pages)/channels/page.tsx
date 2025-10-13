@@ -11,28 +11,43 @@ import { RootState, AppDispatch } from "../../../lib/store";
 import React from "react";
 import { TwitchChannel } from "../../../types";
 
-export default function ChannelsPage() {
+export default function ChannelsPage(): React.JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const channelsContainer = useSelector(
     (state: RootState) => state.channels.value
   );
 
   const liveOnly = channelsContainer.liveOnly;
-  const languageKeys = channelsContainer.languages.map((lang) => lang.code);
-  const channels: TwitchChannel[] = channelsContainer.channels
-    .filter((channel) => (liveOnly ? channel.is_live : true))
-    .filter((channel) =>
-      languageKeys.length > 0
-        ? languageKeys.includes(channel.broadcaster_language)
-        : true
-    );
+  console.log("liveOnly: ", liveOnly);
+  const cursor = channelsContainer.pagination?.cursor;
+  const langCodes = channelsContainer.languages.map((lang) => lang.code);
+  const langFilter = (channel: TwitchChannel) =>
+    langCodes.length == 0 || langCodes.includes(channel.broadcaster_language);
+  const channels = channelsContainer.channels
+    .filter((c) => (liveOnly ? c.is_live : true))
+    .filter(langFilter);
+  const isTerminal = channelsContainer.isTerminal;
 
   const [isLoading, setIsLoading] = useState(false);
-
-  const [searchQuery, setSearchQuery] = useState(
-    channelsContainer.query || "chat"
-  );
+  const [searchQuery, setSearchQuery] = useState(channelsContainer.query);
   const [isSticky, setIsSticky] = useState(false);
+
+  const fetchChannelsWithParams = () => {
+    const query = new URLSearchParams({
+      query: searchQuery,
+      live_only: `${liveOnly}`,
+    });
+    if (cursor) query.set("after", cursor);
+    langCodes.forEach((code) => query.append("broadcaster_language", code));
+    setIsLoading(true);
+    console.log("Loading started query: ", query.toString());
+    fetchChannels(query, onFetchChannelsSuccess, errorHandler);
+  };
+
+  const onFetchChannelsSuccess = (payload: any) => {
+    dispatch(setChannels(payload));
+    setIsLoading(false);
+  };
 
   const errorHandler = (error: any) => {
     setIsLoading(false);
@@ -40,10 +55,9 @@ export default function ChannelsPage() {
   };
 
   useEffect(() => {
-    handleSearch();
-  }, []);
+    console.log("Initial load");
+    fetchChannelsWithParams();
 
-  useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsSticky(scrollPosition > 60);
@@ -53,46 +67,12 @@ export default function ChannelsPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSearch = () => {
-    if (isLoading || !searchQuery) return;
-
-    setIsLoading(true);
-    console.log("Loading started");
-    console.log("Search:", searchQuery);
-    const queryParams = new URLSearchParams({ query: searchQuery });
-    fetchChannels(
-      queryParams,
-      (payload) => {
-        dispatch(setChannels(payload));
-        scrollTo({ left: 0, top: 0, behavior: "auto" });
-        setIsLoading(false);
-      },
-      errorHandler
-    );
-  };
-
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   const loadMore = () => {
-    if (isLoading) return;
-    const cursor = channelsContainer.pagination?.cursor;
-    if (!cursor) return;
-    const query = channelsContainer.query;
-    if (!query) return;
-
-    setIsLoading(true);
-    console.log("Loading started");
-
-    const queryParams = new URLSearchParams({ query: query, after: cursor });
-    console.log("Search:", searchQuery);
-    fetchChannels(
-      queryParams,
-      (payload) => {
-        dispatch(setChannels(payload));
-        setIsLoading(false);
-      },
-      errorHandler
-    );
+    if (isLoading || isTerminal) return;
+    console.log("Loading more...");
+    fetchChannelsWithParams();
   };
 
   useEffect(() => {
@@ -107,7 +87,7 @@ export default function ChannelsPage() {
 
     io.observe(el);
     return () => io.disconnect();
-  }, [channelsContainer.pagination?.cursor]);
+  }, [channels]);
 
   return (
     <Box sx={{ position: "relative" }}>
@@ -128,7 +108,7 @@ export default function ChannelsPage() {
         <StreamSearchBar
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
-          handleSearch={handleSearch}
+          handleSearch={fetchChannelsWithParams}
           sx={{
             position: isSticky ? "fixed" : "static",
             top: isSticky ? 0 : "auto",

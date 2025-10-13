@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setStreams } from "../../../lib/features/streamsSlice";
 import { AppDispatch, RootState } from "../../../lib/store";
 import StreamList from "./components/StreamList";
+import { TwitchStream } from "../../../types";
 
 export default function StreamsPage(): React.JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,24 +17,25 @@ export default function StreamsPage(): React.JSX.Element {
   );
 
   const cursor = streamsContainer.pagination?.cursor;
-  const languageCodes = streamsContainer.languages.map((lang) => lang.code);
-  const streams = streamsContainer.streams.filter((stream) =>
-    languageCodes.length > 0 ? languageCodes.includes(stream.language) : true
-  );
+  const langCodes = streamsContainer.languages.map((lang) => lang.code);
+  const langFilter = (stream: TwitchStream) =>
+    langCodes.length == 0 || langCodes.includes(stream.language);
+  const streams = streamsContainer.streams.filter(langFilter);
   const isTerminal = streamsContainer.isTerminal;
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isSticky, setIsSticky] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSticky, setIsSticky] = useState(false);
 
   const fetchStreamsWithParams = () => {
     const query = new URLSearchParams({});
     if (cursor) query.set("after", cursor);
-    languageCodes.forEach((code) => query.append("language", code));
+    langCodes.forEach((code) => query.append("language", code));
     // TODO searchQuery
     setIsLoading(true);
     fetchStreams(query, onFetchStreamsSuccess, errorHandler);
   };
+
   const onFetchStreamsSuccess = (payload: any) => {
     dispatch(setStreams(payload));
     setIsLoading(false);

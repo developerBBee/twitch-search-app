@@ -99,6 +99,7 @@ export interface ChannelsState {
   query: string;
   liveOnly: boolean;
   languages: Language[];
+  isTerminal: boolean;
 }
 
 export interface VideosState {
